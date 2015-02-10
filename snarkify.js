@@ -5,6 +5,14 @@ if (Meteor.isClient) {
   // Code to run on client
   Meteor.subscribe("tweets");
 
+  Template.body.helpers({
+
+    showUserTweets: function() {
+      return Tweets.find();
+    },
+
+  });
+
   Template.body.events({
   // Body template events go in here
 
@@ -18,7 +26,7 @@ if (Meteor.isClient) {
 
     else if (text.length >= 140) {
       // Tweet is too long
-      alert("Everyone knows that tweets are 140 characters or less, but I mean, someone as dumb as you already knew that, right?");
+      Meteor.call("createTweet", "I'm a moron who is using #snarkify to make a tweet longer than 140 characters");
     }
 
     else {
@@ -39,21 +47,11 @@ if (Meteor.isClient) {
 
 
   Meteor.methods({
-    createTweet: function(text) {
 
-      var username = Meteor.user().profile.name;
-
-        Tweets.insert({
-          text: text,
-          createdAt: new Date(),
-          owner: Meteor.userId(),
-          username: username,
-
-        });
-    },
+    // Client side methods go in here
 
 
-  }); // End Meteor Methods
+  }); // End Client Meteor Methods
 
 } // End Meteor.isClient
 
@@ -62,6 +60,10 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
+    Meteor.publish("tweets", function() {
+          return Tweets.find({ createdBy: this.userId });
+    
+          });
 
     var T = new TwitMaker({
       consumer_key: "khi3agryJOzrrFG1Sso3CW9ce",
@@ -73,13 +75,26 @@ if (Meteor.isServer) {
     Meteor.methods({
       createTweet: function(text) {
         
-        T.post('statuses/update', { status: text}, 
-          function(err, data, response) {
-            console.log(data);
-        });
-      }
+        // T.post('statuses/update', { status: text}, 
+        //   function(err, data, response) {
+        //     console.log(data);
+        // });
 
-    });
+        var username = Meteor.user().profile.name;
+
+        Tweets.insert({
+          text: text,
+          createdAt: new Date(),
+          createdBy: this.userId,
+          username: username,
+        });
+        console.log("Inserting into database...");
+
+        
+
+      }, // End createTweet
+
+    }); // End Server Meteor Methods
 
     T.get('search/tweets',
     
@@ -101,7 +116,5 @@ if (Meteor.isServer) {
 
 });
 
-  Meteor.publish("tweets", function() {
-    
-  });
+  
 }

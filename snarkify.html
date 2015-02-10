@@ -30,9 +30,9 @@
 
   <div class="tweets">
   	<ul>
-  		{{#each tweets}}
+<!--  		{{#each tweets}}
   			{{> tweet}}
-  		{{/each}}
+  		{{/each}} -->
   		
   	</ul>
   </div>
@@ -40,7 +40,7 @@
   <div class="myTweets">
   <h3>Your last Snarkify tweets</h3>
   	<ul>
-  		{{#each snarks}}
+  		{{#each Tweets}}
   			{{> snark}}
   		{{/each}}
   	</ul>
@@ -62,6 +62,7 @@
 
 <template name="snark">
 	<li class="user-tweet">
-	<p>This is the current user's snarky tweet</p>
+	<p>{{username}}</p>
+	<p>{{text}}</p>
 	</li>
 </template>
