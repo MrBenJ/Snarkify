@@ -1,0 +1,79 @@
+@mixin fontStandard {
+	font-family: "HelveticaNeue", "sans-serif";
+	font-size: .8em;
+	letter-spacing: 1px;
+}
+
+.title-container {
+	width: 45%;
+	margin: 0 auto;
+	display: block;
+	text-align: center;
+	padding-top: 2em;
+
+	h1 {
+		@include fontStandard;
+		font-size: 3em;
+		margin: 0;
+	}
+
+	h2 {
+		@include fontStandard;
+		font-size: 1.1em;
+		margin: 0;
+		padding-top: .5em;
+	}
+}
+
+.login-box {
+	width: 400px;
+	margin: 0 auto;
+	display: block;
+	text-align: center;
+	padding: 1em;;
+	border: dashed black 2px;
+}
+
+.logout-box {
+	margin-top: 1em;
+	margin-left: 1em;
+	position: fixed;
+}
+
+.tweet-box {
+	width: 60vw;
+	margin: 0 auto;
+	display: block;
+	text-align: center;
+
+	input {
+		width: 100%;
+		height: 3em;
+		background: transparent;
+		border: none;
+		font-size: 1em;
+		text-align: center;
+	}
+}
+
+.tweets {
+	width: 60vw;
+	margin:0 auto;
+	display: block;
+	border: dashed black 1px;
+
+	.snarky-tweet {
+		width: 100%;
+		height: 3em;
+		background: transparent;
+		border: solid black 1px;
+	}
+}
+
+.myTweets {
+	h3 {
+		@include fontStandard;
+	}
+
+
+}

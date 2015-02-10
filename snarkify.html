@@ -1,14 +1,67 @@
 <head>
-  <title>snarkify</title>
+  <title>Snarkify | Get Smart n' Snarky</title>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  {{#if currentUser}}
+  <div class="logout-box">
+  	{{> loginButtons}}
+  </div>
+  {{else}} 
+  {{/if}}
+  <div class="title-container">
+  	<h1>Snarkify</h1>
+  	<h2>Because screw you, I'm feeling snarky</h2>
+  </div>
+  
 
-  {{> hello}}
+
+  {{#unless currentUser }}
+  <div class="login-box">
+  	{{> loginButtons}}
+  </div>
+
+  {{else}}
+  <div class="tweet-box">
+  	<form class="tweet-box-form">
+  		<input type="text" name="text" placeholder="Click here to be condescending" />
+ 	 </form>
+  </div>
+
+  <div class="tweets">
+  	<ul>
+  		{{#each tweets}}
+  			{{> tweet}}
+  		{{/each}}
+  		
+  	</ul>
+  </div>
+
+  <div class="myTweets">
+  <h3>Your last Snarkify tweets</h3>
+  	<ul>
+  		{{#each snarks}}
+  			{{> snark}}
+  		{{/each}}
+  	</ul>
+  </div>
+  
+  {{/unless}}
+  
+
+
+  
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="tweet">
+	<li class="snarky-tweet">
+	<p class="twitterUserName">@blahblahblah</p>
+	<p class="twitterUserTweet">This is my tweet</p>
+	</li>
+</template>
+
+<template name="snark">
+	<li class="user-tweet">
+	<p>This is the current user's snarky tweet</p>
+	</li>
 </template>
