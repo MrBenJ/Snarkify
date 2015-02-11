@@ -124,12 +124,12 @@ if (Meteor.isServer) {
     
     {
       q: '#snark',
-      count: 11,
+      count: 25,
       }, Meteor.bindEnvironment(
 
     function(err, data, response) {
 
-      for(i=0; i < 11; i++) {
+      for(i=0; i < 25; i++) {
 
         var screen_name = "@" + data.statuses[i].user.screen_name;
         var name = data.statuses[i].user.name;

@@ -60,6 +60,9 @@
     width: 50%;
     margin: 0 auto;
     display: block; }
+  .tweets ul {
+    padding: 0;
+    margin-left: .2em; }
   .tweets li:nth-child(2n) {
     background-color: #f0f3fc; }
   .tweets .snarky-tweet {
@@ -68,7 +71,10 @@
     letter-spacing: 1px;
     width: 100%;
     height: 6em;
-    background: transparent; }
+    background: transparent;
+    list-style: none;
+    margin: 0;
+    padding: 0; }
     .tweets .snarky-tweet .twitterUserName {
       margin: 0;
       padding: 0;
@@ -107,5 +113,27 @@
     .myTweets .user-tweet .SnarkUser {
       color: blue;
       font-size: .5em; }
+
+@media screen and (max-width: 980px) {
+  .title-container h1 {
+    font-size: 2em; }
+  .title-container h2 {
+    font-size: 1em; }
+
+  .tweets {
+    width: 90vw; }
+    .tweets li {
+      height: 10em; }
+
+  .myTweets-container {
+    display: none; }
+
+  body {
+    position: relative; }
+
+  .logout-box {
+    postition: absolute;
+    bottom: 25px;
+    left: 25px; } }
 
 /*# sourceMappingURL=snarkify.css.map */
