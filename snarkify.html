@@ -11,39 +11,46 @@
   {{/if}}
   <div class="title-container">
   	<h1>Snarkify</h1>
-  	<h2>Because screw you, I'm feeling snarky</h2>
+  	<h2>Find snarky tweeters, tweet snarky things</h2>
   </div>
   
 
 
   {{#unless currentUser }}
+  
   <div class="login-box">
   	{{> loginButtons}}
   </div>
 
   {{else}}
-  <div class="tweet-box">
-  	<form class="tweet-box-form">
-  		<input type="text" name="text" placeholder="Click here to be condescending" />
- 	 </form>
-  </div>
+  <div class="main-page-container">
+  	<div class="tweet-box">
+  		<form class="tweet-box-form">
+  			<input type="text" name="text" placeholder="Click here to be condescending" />
+ 	 	</form>
+  	</div>
 
-  <div class="tweets">
-  	<ul>
-<!--  		{{#each tweets}}
-  			{{> tweet}}
-  		{{/each}} -->
+  	<div class="tweets">
+  		<button id="refresh">Show me some (newer) tweets</button>
+  		<ul>
+ 			{{#each tweets}}
+  				{{> tweet}}
+  			{{/each}} 
   		
-  	</ul>
-  </div>
+  		</ul>
 
-  <div class="myTweets">
-  <h3>Your last Snarkify tweets</h3>
-  	<ul>
-  		{{#each Tweets}}
-  			{{> snark}}
-  		{{/each}}
-  	</ul>
+  	</div>
+  	<div class="myTweets-container">
+  		<div class="myTweets">
+  			<h3>Your recent tweets</h3>
+  			<button id="clear">Clear my snark</button>
+  			<ul>
+  				{{#each snarks}}
+  					{{> snark}}
+  				{{/each}}
+  			</ul>
+  		</div>
+  	</div>
   </div>
   
   {{/unless}}
@@ -55,14 +62,14 @@
 
 <template name="tweet">
 	<li class="snarky-tweet">
-	<p class="twitterUserName">@blahblahblah</p>
-	<p class="twitterUserTweet">This is my tweet</p>
+	<p class="twitterUserName">{{screen_name}} - <span>{{name}}</span></p>
+	<p class="twitterUserTweet">{{text}}</p>
 	</li>
 </template>
 
 <template name="snark">
 	<li class="user-tweet">
-	<p>{{username}}</p>
-	<p>{{text}}</p>
+		<p class="SnarkUser">{{username}}</p>
+		<p class="SnarkTweet">{{text}}</p>
 	</li>
 </template>

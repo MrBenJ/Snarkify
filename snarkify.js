@@ -1,15 +1,21 @@
 Tweets = new Mongo.Collection("tweets");
-
+parseTweets = new Mongo.Collection("fromTwitter");
 
 if (Meteor.isClient) {
   // Code to run on client
   Meteor.subscribe("tweets");
+  Meteor.subscribe("parseTweets");
 
   Template.body.helpers({
 
-    showUserTweets: function() {
+    snarks: function () {
       return Tweets.find();
     },
+
+    tweets: function() {
+      return parseTweets.find();
+    }
+
 
   });
 
@@ -40,6 +46,15 @@ if (Meteor.isClient) {
     return false;
   },
 
+  "click #refresh": function(event) {
+    Meteor.call("removeAllPosts");
+    Meteor.call("refreshTweets");
+  },
+
+  "click #clear": function(event) {
+    Meteor.call("removeUserPosts");
+  },
+
 
 
 
@@ -61,9 +76,12 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
     Meteor.publish("tweets", function() {
-          return Tweets.find({ createdBy: this.userId });
+          return Tweets.find({ createdBy: this.userId }, {sort: {createdAt: -1}});
     
           });
+    Meteor.publish("parseTweets", function() {
+          return parseTweets.find({});
+    })
 
     var T = new TwitMaker({
       consumer_key: "khi3agryJOzrrFG1Sso3CW9ce",
@@ -75,10 +93,10 @@ if (Meteor.isServer) {
     Meteor.methods({
       createTweet: function(text) {
         
-        // T.post('statuses/update', { status: text}, 
-        //   function(err, data, response) {
-        //     console.log(data);
-        // });
+        T.post('statuses/update', { status: text}, 
+          function(err, data, response) {
+            // Callback here, but not needed???
+        });
 
         var username = Meteor.user().profile.name;
 
@@ -88,29 +106,55 @@ if (Meteor.isServer) {
           createdBy: this.userId,
           username: username,
         });
-        console.log("Inserting into database...");
 
         
 
       }, // End createTweet
 
-    }); // End Server Meteor Methods
+      removeAllPosts: function() {
+        parseTweets.remove({});
+      }, // end removeAllPosts
 
-    T.get('search/tweets',
+      removeUserPosts: function() {
+        Tweets.remove({});
+      }, // end removeUserPosts
+
+      refreshTweets: function() {
+        T.get('search/tweets',
     
     {
       q: '#snark',
-      count: 10,
-      },
+      count: 11,
+      }, Meteor.bindEnvironment(
 
     function(err, data, response) {
-      if(data) {
-        for (var i = 0; i < data.length; i++) {
-          console.log(data[i].text);
-          console.log("Searched for a tweet and found this!");
-        }
-      }
-    });
+
+      for(i=0; i < 11; i++) {
+
+        var screen_name = "@" + data.statuses[i].user.screen_name;
+        var name = data.statuses[i].user.name;
+        var text = data.statuses[i].text;
+
+        
+
+        parseTweets.insert({
+          screen_name: screen_name,
+          name: name,
+          text: text,
+        });
+      };
+
+    } // end callBack
+    )); // end bindEnvironment
+
+        
+
+    },  // End refreshTweets
+
+
+    }); // End Server Meteor Methods
+
+    
 
 
 
