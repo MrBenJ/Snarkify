@@ -84,10 +84,10 @@ if (Meteor.isServer) {
     })
 
     var T = new TwitMaker({
-      consumer_key: "khi3agryJOzrrFG1Sso3CW9ce",
-      consumer_secret: "yWF70HC4iSdkU4Si3wo3IZgvhjCWMLyBOMyO4h3V9cccFH8oXM",
-      access_token: "2402661966-lQdI8oUHp2MXf8xpa1BXlyQ35Pm9IGfuKn0OvfL",
-      access_token_secret: "ylm3YbvpjI6mEQK1xAArUHk1sKPcK34Vlv7DBrokMyx2K",
+      consumer_key: "YOUR_TWITTER_CONSUMER_KEY",
+      consumer_secret: "YOUR_TWITTER_CONSUMER_SECRET",
+      access_token: "YOUR_TWITTER_ACCESS_TOKEN",
+      access_token_secret: "YOUR_TWITTER_ACCESS_TOKEN_SECRET",
     });
 
     Meteor.methods({
